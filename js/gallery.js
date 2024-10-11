@@ -65,7 +65,7 @@ const images = [
 ];
 
 const container = document.querySelector(".gallery");
-container.insertAdjacentHTML("beforeend", createMarkup(images));
+container.insertAdjacentHTML("afterbegin", createMarkup(images));
 
 container.addEventListener("click", handleClick);
 
@@ -93,21 +93,20 @@ function createMarkup(arr) {
 
 function handleClick(event) {
   event.preventDefault();
-
-  if (event.target.classList.contains(".gallery-item")) {
-    console.log("ok");
+  if (event.target.nodeName !== "IMG") {
+    // console.log("NO-IMG");
     return;
   }
-  console.log(event.target);
+
+  const largeImage = event.target.dataset.source;
+  console.log(largeImage);
+  const largeAlt = event.target.alt;
+  console.log(largeAlt);
+
+  const instance = basicLightbox.create(`
+    <div class="modal">
+    <img src="${largeImage}" alt="${largeAlt}" width="1112px" height="640px">
+    </div>
+    `);
+  instance.show();
 }
-
-container.style.display = "flex";
-container.style.listStyle = "none";
-container.style.flexWrap = "wrap";
-container.style.gap = "24px";
-container.style.width = "1128";
-container.style.justifyContent = "center";
-
-// const link = document.querySelector(".gallery-image");
-// link.width = 360;
-// link.height = 200;
